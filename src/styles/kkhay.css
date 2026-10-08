@@ -1,0 +1,281 @@
+/**
+ * @fileoverview Scoped Linear / Modern SaaS styling for @kkhay/react
+ * @license MIT
+ */
+
+:root,
+.kkhay-theme-dark {
+  --kkhay-bg: #09090b;
+  --kkhay-card: rgba(18, 18, 21, 0.75);
+  --kkhay-card-border: rgba(255, 255, 255, 0.1);
+  --kkhay-text: #fafafa;
+  --kkhay-text-muted: #a1a1aa;
+  --kkhay-primary: #10b981;
+  --kkhay-primary-hover: #059669;
+  --kkhay-primary-soft: rgba(16, 185, 129, 0.12);
+  --kkhay-backdrop: rgba(0, 0, 0, 0.7);
+  --kkhay-tile-bg: rgba(255, 255, 255, 0.05);
+  --kkhay-tile-border: rgba(255, 255, 255, 0.08);
+  --kkhay-badge-bg: rgba(255, 255, 255, 0.06);
+  --kkhay-danger: #ef4444;
+}
+
+.kkhay-theme-light {
+  --kkhay-bg: #ffffff;
+  --kkhay-card: rgba(255, 255, 255, 0.9);
+  --kkhay-card-border: rgba(0, 0, 0, 0.08);
+  --kkhay-text: #09090b;
+  --kkhay-text-muted: #71717a;
+  --kkhay-primary: #10b981;
+  --kkhay-primary-hover: #059669;
+  --kkhay-primary-soft: rgba(16, 185, 129, 0.1);
+  --kkhay-backdrop: rgba(0, 0, 0, 0.45);
+  --kkhay-tile-bg: rgba(0, 0, 0, 0.03);
+  --kkhay-tile-border: rgba(0, 0, 0, 0.06);
+  --kkhay-badge-bg: rgba(0, 0, 0, 0.05);
+  --kkhay-danger: #ef4444;
+}
+
+/* Pay Button */
+.kkhay-pay-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  outline: none;
+}
+
+.kkhay-pay-button:focus-visible {
+  box-shadow: 0 0 0 2px var(--kkhay-bg), 0 0 0 4px var(--kkhay-primary);
+}
+
+.kkhay-pay-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.kkhay-btn-default {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.kkhay-btn-default:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  transform: translateY(-1px);
+}
+
+.kkhay-btn-outline {
+  background: transparent;
+  color: var(--kkhay-text);
+  border: 1px solid var(--kkhay-card-border);
+}
+
+.kkhay-btn-outline:hover:not(:disabled) {
+  background: var(--kkhay-tile-bg);
+  border-color: var(--kkhay-primary);
+}
+
+.kkhay-btn-glass {
+  background: var(--kkhay-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--kkhay-text);
+  border: 1px solid var(--kkhay-card-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.kkhay-btn-glass:hover:not(:disabled) {
+  border-color: var(--kkhay-primary);
+  transform: translateY(-1px);
+}
+
+.kkhay-btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.kkhay-btn-default-size {
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.kkhay-btn-lg {
+  padding: 12px 24px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+/* Modal Overlay */
+.kkhay-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--kkhay-backdrop);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: kkhayFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modal Container (Linear Glassmorphism) */
+.kkhay-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: var(--kkhay-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--kkhay-card-border);
+  border-radius: 18px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--kkhay-card-border);
+  color: var(--kkhay-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  animation: kkhayScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Header */
+.kkhay-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--kkhay-card-border);
+}
+
+.kkhay-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.kkhay-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--kkhay-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.kkhay-modal-close-btn:hover {
+  color: var(--kkhay-text);
+  background: var(--kkhay-tile-bg);
+}
+
+/* Body */
+.kkhay-modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Bento Tile Cards */
+.kkhay-bento-tile {
+  background: var(--kkhay-tile-bg);
+  border: 1px solid var(--kkhay-tile-border);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+.kkhay-qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 14px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.kkhay-copy-pill {
+  background: var(--kkhay-primary-soft);
+  color: var(--kkhay-primary);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+
+.kkhay-copy-pill:hover {
+  background: rgba(16, 185, 129, 0.2);
+}
+
+/* Status Pill */
+.kkhay-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.kkhay-status-pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+.kkhay-status-paid {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+/* Keyframes */
+@keyframes kkhayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes kkhayScaleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .kkhay-modal-card {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+}
+
