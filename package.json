@@ -1,6 +1,6 @@
 {
   "name": "@kkhay/react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official drop-in React & Next.js crypto checkout modal and UI SDK for K Khay Payment Gateway (USDT, USDC, BNB, ETH).",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
