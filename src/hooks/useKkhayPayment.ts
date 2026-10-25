@@ -20,8 +20,8 @@ export function useKkhayPayment(options: UseKkhayPaymentOptions = {}) {
   const [error, setError] = useState<Error | null>(null);
   const [timeLeft, setTimeLeft] = useState<string>("15:00");
 
-  const pollingRef = useRef<NodeJS.Timeout | null>(null);
-  const countdownRef = useRef<NodeJS.Timeout | null>(null);
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollingInterval = options.pollingInterval || 3000;
 
   // Clear timers on unmount
@@ -36,23 +36,28 @@ export function useKkhayPayment(options: UseKkhayPaymentOptions = {}) {
     if (!invoice?.id) return;
     try {
       const updated = await apiGet(invoice.id);
-      const newStatus = (updated.status || "").toLowerCase() as PaymentStatus;
+      const rawStatus = (updated.status || "").toString().toUpperCase();
 
       setInvoice(updated);
 
-      if (newStatus === "paid" || newStatus === "confirmed") {
+      if (rawStatus === "PAID" || rawStatus === "CONFIRMED") {
         setStatus("paid");
         if (pollingRef.current) clearInterval(pollingRef.current);
         if (countdownRef.current) clearInterval(countdownRef.current);
         options.onSuccess?.(updated);
-      } else if (newStatus === "expired" || newStatus === "cancelled") {
+      } else if (rawStatus === "EXPIRED" || rawStatus === "CANCELED" || rawStatus === "CANCELLED") {
         setStatus("expired");
         if (pollingRef.current) clearInterval(pollingRef.current);
-      } else if (newStatus === "partial") {
+      } else if (rawStatus === "WAITING" || rawStatus === "PENDING") {
+        setStatus("pending");
+      } else if (rawStatus === "CONFIRMING") {
+        setStatus("confirming");
+      } else if (rawStatus === "PARTIAL") {
         setStatus("partial");
       }
-    } catch (err: any) {
-      console.warn("K Khay status poll error:", err.message);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn("K Khay status poll error:", msg);
     }
   }, [invoice?.id, apiGet, options]);
 
@@ -74,7 +79,7 @@ export function useKkhayPayment(options: UseKkhayPaymentOptions = {}) {
       ? new Date(invoice.expiresAt).getTime()
       : new Date(invoice.createdAt || Date.now()).getTime() + 15 * 60 * 1000;
 
-    const updateTimer = () => {
+    countdownRef.current = setInterval(() => {
       const now = Date.now();
       const diff = Math.max(0, Math.floor((expiresAt - now) / 1000));
 
@@ -90,10 +95,7 @@ export function useKkhayPayment(options: UseKkhayPaymentOptions = {}) {
         .padStart(2, "0");
       const s = (diff % 60).toString().padStart(2, "0");
       setTimeLeft(`${m}:${s}`);
-    };
-
-    updateTimer();
-    countdownRef.current = setInterval(updateTimer, 1000);
+    }, 1000);
 
     return () => {
       if (countdownRef.current) clearInterval(countdownRef.current);
@@ -109,8 +111,18 @@ export function useKkhayPayment(options: UseKkhayPaymentOptions = {}) {
         const inv = await apiCreate(createOptions);
         setInvoice(inv);
         setStatus("pending");
+
+        // Initialize countdown time display cleanly without effect cascading render
+        const expiresAt = inv.expiresAt
+          ? new Date(inv.expiresAt).getTime()
+          : Date.now() + 15 * 60 * 1000;
+        const diff = Math.max(0, Math.floor((expiresAt - Date.now()) / 1000));
+        const m = Math.floor(diff / 60).toString().padStart(2, "0");
+        const s = (diff % 60).toString().padStart(2, "0");
+        setTimeLeft(`${m}:${s}`);
+
         return inv;
-      } catch (err: any) {
+      } catch (err: unknown) {
         const errorObj = err instanceof Error ? err : new Error(String(err));
         setError(errorObj);
         setStatus("failed");
@@ -143,4 +155,3 @@ export function useKkhayPayment(options: UseKkhayPaymentOptions = {}) {
     reset,
   };
 }
-

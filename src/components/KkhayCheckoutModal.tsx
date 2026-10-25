@@ -20,6 +20,13 @@ const NETWORKS: { id: CryptoNetwork; name: string; color: string }[] = [
   { id: "arbitrum", name: "Arbitrum", color: "#28a0f0" },
   { id: "base", name: "Base", color: "#0052ff" },
   { id: "ethereum", name: "Ethereum", color: "#627eea" },
+  { id: "solana", name: "Solana", color: "#14f195" },
+  { id: "ton", name: "TON", color: "#0098ea" },
+  { id: "tron", name: "Tron", color: "#eb0029" },
+  { id: "bitcoin", name: "Bitcoin", color: "#f7931a" },
+  { id: "xrpl", name: "XRP Ledger", color: "#23292f" },
+  { id: "dogecoin", name: "Dogecoin", color: "#c2a633" },
+  { id: "litecoin", name: "Litecoin", color: "#345d9d" },
 ];
 
 export function KkhayCheckoutModal({
@@ -65,11 +72,10 @@ export function KkhayCheckoutModal({
   if (!isOpen) return null;
 
   const currentInvoice = invoice || initialInvoice;
-  const depositAddress =
-    currentInvoice?.depositAddress || "0x71C...a47B2E3D98E56F9812C4"; // live address or hosted checkout address
-  const checkoutUrl = currentInvoice?.checkoutUrl || "https://kkhay.com/pay";
-  const amountStr = currentInvoice ? Number(currentInvoice.amount).toFixed(2) : "0.00";
-  const currencyStr = currentInvoice?.currency || "USD";
+  const depositAddress = currentInvoice?.depositAddress || "";
+  const checkoutUrl = currentInvoice?.hostedUrl || currentInvoice?.checkoutUrl || "https://kkhay.com/pay";
+  const amountStr = currentInvoice ? Number(currentInvoice.amount ?? currentInvoice.priceAmount ?? 0).toFixed(2) : "0.00";
+  const currencyStr = (currentInvoice?.currency || currentInvoice?.priceCurrency || "USD").toUpperCase();
 
   const copyToClipboard = (text: string, type: "address" | "amount") => {
     if (navigator?.clipboard) {
@@ -294,7 +300,7 @@ export function KkhayCheckoutModal({
 
               {/* Deposit Address Box */}
               <div className="kkhay-bento-tile">
-                <div style={{ minWidth: 0 }}>
+                <div style={{ minWidth: 0, flex: 1 }}>
                   <div style={{ fontSize: 11, color: "var(--kkhay-text-muted)", marginBottom: 2 }}>
                     Scan QR or Pay directly via Web:
                   </div>
@@ -356,4 +362,3 @@ export function KkhayCheckoutModal({
     </div>
   );
 }
-

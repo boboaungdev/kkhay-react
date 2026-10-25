@@ -1,25 +1,32 @@
-# @kkhay/react
+<div align="center">
 
-[![npm version](https://img.shields.io/npm/v/@kkhay/react.svg?color=10b981)](https://www.npmjs.com/package/@kkhay/react)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178C6.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18%20%26%2019-61DAFB.svg)](https://react.dev/)
-[![Next.js](https://img.shields.io/badge/Next.js-14%20%26%2015-black.svg)](https://nextjs.org/)
+# `@kkhay/react`
 
-The official **React & Next.js** crypto checkout modal and UI SDK for **[K Khay](https://kkhay.com)**.
+**Official React & Next.js Crypto Checkout Modal and UI SDK for K Khay Gateway**
 
-Accept non-custodial and custodial crypto payments (**USDT, USDC, BNB, ETH** across **BNB Smart Chain, Polygon, Arbitrum, Base, and Ethereum**) directly in your web applications with **instant on-chain verification** and **zero chargebacks**.
+[![npm version](https://img.shields.io/npm/v/@kkhay/react.svg?color=10b981&style=flat-square)](https://www.npmjs.com/package/@kkhay/react)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178C6.svg?style=flat-square)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18%20%26%2019-61DAFB.svg?style=flat-square)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-14%20%26%2015-black.svg?style=flat-square)](https://nextjs.org/)
+
+Accept cryptocurrency payments across **190+ blockchain networks** and **500+ tokens** (EVM, Bitcoin, Solana, TON, Tron, and XRPL) directly in your web applications with **zero custody**, **instant on-chain verification**, and **zero chargebacks**.
+
+[Gateway Dashboard](https://gateway.kkhay.com) • [API Keys](https://gateway.kkhay.com/dashboard/keys) • [Website](https://kkhay.com)
+
+</div>
 
 ---
 
 ## 🌟 Features
 
 * **Linear / Modern SaaS Aesthetic**: Designed with subtle frosted glass surfaces (`backdrop-blur-md`), crisp borders, and dark/light mode support.
+* **190+ Blockchain Networks**: Native support for EVM (BSC, Polygon, Arbitrum, Base, Ethereum), UTXO (Bitcoin, Dogecoin, Litecoin), and High-Throughput chains (Solana, TON, Tron, XRPL).
 * **Next.js App Router Native**: Full support for Next.js 14 and 15 Server Components via pre-bundled `"use client"` directives.
 * **Zero CSS Conflicts**: Clean scoped classes (`kkhay-*`) that work effortlessly with Tailwind CSS, Vanilla CSS, or CSS Modules.
 * **Drop-in `<KkhayPayButton />`**: Single-line integration that automatically mounts and manages the checkout modal.
 * **Dynamic High-Resolution QR Codes**: Built-in SVG QR code rendering with the official K Khay center emblem.
-* **Live Blockchain Listener**: Automatically polls payment status and transitions to the confirmed state upon on-chain settlement.
+* **Live Blockchain Listener**: Automatically polls payment status and transitions to confirmed state upon on-chain settlement.
 * **Headless Hook (`useKkhayPayment`)**: Full UI control for developers building completely bespoke checkout interfaces.
 
 ---
@@ -49,7 +56,7 @@ import "@kkhay/react/styles.css";
 
 export default function CheckoutPage() {
   return (
-    <KkhayProvider apiKey="kkhay_pk_live_your_api_key_here">
+    <KkhayProvider apiKey="kkhay_live_your_api_key_here">
       <div style={{ padding: "40px", textAlign: "center" }}>
         <h1>Upgrade to Pro</h1>
         <p>Unlock all features for $29.99 / month</p>
@@ -91,7 +98,7 @@ export function CustomPaymentFlow() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <KkhayProvider apiKey="kkhay_pk_live_your_key">
+    <KkhayProvider apiKey="kkhay_live_your_key">
       <button onClick={() => setIsOpen(true)}>
         Custom Buy Button
       </button>
@@ -179,18 +186,29 @@ export function BespokeCheckout() {
 | `invoiceOptions`| `CreateInvoiceOptions` | `undefined` | Options to automatically generate invoice. |
 | `theme` | `"dark" \| "light" \| "system"` | `"dark"` | Color theme mode. |
 | `onSuccess` | `(invoice) => void` | `undefined` | Callback fired on confirmed settlement. |
+| `onError` | `(err) => void` | `undefined` | Callback fired on error. |
+
+---
+
+## 🌐 Supported Blockchains (190+ Networks)
+
+| Network | Code | Type | Popular Tokens |
+| :--- | :--- | :--- | :--- |
+| **BNB Smart Chain** | `bsc` | EVM | USDT, USDC, BNB, DAI |
+| **Polygon** | `polygon` | EVM | USDT, USDC, POL, WETH |
+| **Arbitrum One** | `arbitrum` | EVM (L2) | USDT, USDC, ARB, ETH |
+| **Base** | `base` | EVM (L2) | USDC, ETH, DAI |
+| **Ethereum** | `eth` | EVM (L1) | USDT, USDC, ETH, DAI |
+| **Solana** | `solana` / `sol` | High-Throughput | SOL, USDT, USDC |
+| **TON Network** | `ton` | High-Throughput | TON, USDT |
+| **Tron** | `tron` / `trx` | TRC-20 | TRX, USDT, USDC |
+| **Bitcoin** | `bitcoin` / `btc`| UTXO | BTC |
+| **XRP Ledger** | `xrpl` / `xrp` | Ledger | XRP |
+| **Dogecoin** | `dogecoin` / `doge`| UTXO | DOGE |
+| **Litecoin** | `litecoin` / `ltc` | UTXO | LTC |
 
 ---
 
 ## 📄 License
 
-This library is licensed under the [MIT License](LICENSE).
-
----
-
-## 💬 Community & Support
-
-* **Website**: [https://kkhay.com](https://kkhay.com)
-* **GitHub Issues**: [https://github.com/boboaungdev/kkhay-react/issues](https://github.com/boboaungdev/kkhay-react/issues)
-* **Telegram**: [@kkhaysupport](https://t.me/kkhay)
-
+MIT © [K Khay](https://kkhay.com)

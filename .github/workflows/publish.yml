@@ -13,10 +13,11 @@ jobs:
     name: Publish package to npm
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       id-token: write
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -33,12 +34,5 @@ jobs:
       - name: Build and Test
         run: npm run prepublishOnly
 
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
-
       - name: Publish to npm (Trusted Publishing via OIDC)
         run: npm publish --access public --provenance
-

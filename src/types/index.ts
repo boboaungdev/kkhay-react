@@ -3,6 +3,8 @@
  * @license MIT
  */
 
+export type InvoiceStatus = "WAITING" | "PAID" | "EXPIRED" | "CANCELED";
+
 export type PaymentStatus =
   | "idle"
   | "creating"
@@ -13,16 +15,46 @@ export type PaymentStatus =
   | "partial"
   | "expired"
   | "cancelled"
-  | "failed";
+  | "failed"
+  | "WAITING"
+  | "PAID"
+  | "EXPIRED"
+  | "CANCELED";
 
 export type KkhayTheme = "dark" | "light" | "system";
 
-export type CryptoNetwork = "bsc" | "polygon" | "arbitrum" | "base" | "ethereum";
-export type CryptoToken = "USDT" | "USDC" | "BNB" | "ETH";
+export type CryptoNetwork =
+  | "bsc"
+  | "polygon"
+  | "arbitrum"
+  | "base"
+  | "ethereum"
+  | "solana"
+  | "ton"
+  | "tron"
+  | "bitcoin"
+  | "xrpl"
+  | "dogecoin"
+  | "litecoin"
+  | (string & {});
+
+export type CryptoToken =
+  | "USDT"
+  | "USDC"
+  | "BTC"
+  | "ETH"
+  | "SOL"
+  | "TON"
+  | "BNB"
+  | "DOGE"
+  | "XRP"
+  | "TRX"
+  | "LTC"
+  | (string & {});
 
 export interface KkhayConfig {
   /**
-   * K Khay Merchant API Key.
+   * K Khay Gateway API Key.
    */
   apiKey: string;
 
@@ -59,21 +91,35 @@ export interface CustomerInfo {
 export interface CreateInvoiceOptions {
   amount: number;
   currency?: string;
+  priceAmount?: number;
+  priceCurrency?: string;
+  payNetwork?: string;
+  payToken?: string;
   orderId?: string;
   title?: string;
   description?: string;
   customer?: CustomerInfo;
   metadata?: Record<string, unknown>;
   returnUrl?: string;
+  redirectUrl?: string;
+  cancelUrl?: string;
 }
 
 export interface InvoiceData {
   id: string;
-  orderId: string;
+  gatewayId?: string;
+  gateway_id?: string;
+  orderId?: string;
   amount: number;
   currency: string;
-  status: PaymentStatus | string;
+  priceAmount?: number;
+  priceCurrency?: string;
+  payAmount?: string;
+  payToken?: string;
+  payNetwork?: string;
+  status: PaymentStatus | InvoiceStatus | string;
   checkoutUrl: string;
+  hostedUrl?: string;
   depositAddress?: string;
   network?: CryptoNetwork | string;
   amountPaid?: number;
@@ -206,4 +252,3 @@ export interface KkhayPayButtonProps {
    */
   onError?: (error: Error) => void;
 }
-
